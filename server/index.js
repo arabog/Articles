@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const authRouter = require('./routers/auth');
 
 
 
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 3050;
 
 app.use(express.json());
 app.use(cors());
+app.use(authRouter);
 
 
 app.get('/', async (req, res) => {
