@@ -18,7 +18,20 @@ router.get('/api/students', async(req, res) => {
 
 
 // get a particular student
-// update a student admin/owner
+router.get('/api/students/:id', async (req, res) => {
+          try {
+                    const student = await Student.findById(req.params.id);
+          
+                    res.status(200).send(student);
+          } catch (err) {
+                    res.status(500).send('Something went wrong. Try again');
+                    console.log(err)
+          }
+})
+
+
+// update a student account as d owner
+
 // delete student by admin
 
 

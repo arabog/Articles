@@ -44,6 +44,11 @@ const studentSchema = mongoose.Schema(
                               trim: true,
                               minlength: 6
                     },
+
+                    isAdmin: {
+                              type: Boolean,
+                              default: false,
+                    }
           },
 
           {
