@@ -14,8 +14,11 @@ router.post('/register', async (req, res) => {
 
           try {
                     user = new Student(req.body);
+
                     user.password = await bcrypt.hash(password, 10);
+
                     await user.save();
+                    
                     res.status(200).send("New user successfully created");
           } catch (err) {
                     res.status(500).send('Something went wrong');
@@ -37,6 +40,7 @@ router.post('/login', async (req, res) => {
                     }
                     
                     const {password, ...rest} = user.toObject();
+                    // const { password, ...others } = user._doc
 
                     return res.send(rest);
           } catch (err) {
