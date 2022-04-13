@@ -21,8 +21,10 @@ router.get('/api/students', async(req, res) => {
 router.get('/api/students/:id', async (req, res) => {
           try {
                     const student = await Student.findById(req.params.id);
+
+                    const {password, ...others} = student._doc;
           
-                    res.status(200).send(student);
+                    res.status(200).send(others);
           } catch (err) {
                     res.status(500).send('Something went wrong. Try again');
                     console.log(err)
@@ -31,11 +33,10 @@ router.get('/api/students/:id', async (req, res) => {
 
 
 // update a student account as d owner
-router.put('/api/students/:id', async (req, res) => {
+router.put('/api/student/:id', async (req, res) => {
           if(req.body.userId === req.params.id) {
+                    
                     if(req.body.password) {
-                              // const salt = await bcrypt.genSalt(10);
-
                               req.body.password = await bcrypt.hash(req.body.password, 10)
                     }
 
@@ -65,10 +66,21 @@ router.put('/api/students/:id', async (req, res) => {
 
 
 // delete student by admin
+router.delete('/api/student/:id', async (req, res) => {
+          const user = await Student.findById(req.body.userId);
 
+          if((req.body.userId === req.params.id) || user.isAdmin) {
+                    try {
+                              await Student.findByIdAndDelete(req.params.id);
 
-
-
+                              res.status(200).json('User has been deleted...');
+                    } catch (err) {
+                              res.status(500).json(err);
+                    }
+          }else {
+                    res.status(401).json('You can delete only your account, unless you are admin');
+          }
+})
 
 
 module.exports = router;
