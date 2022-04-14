@@ -30,6 +30,9 @@ router.get('/api/posts', async (req, res) => {
 })
 
 
+// get a particular post
+// updated posts
+// delete a post by both admin and owner
 
 
 
