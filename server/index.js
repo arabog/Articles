@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const authRouter = require('./routers/auth');
-const studentsRouter = require('./routers/student');
+const studentRouter = require('./routers/student');
+const articleRouter = require('./routers/article')
 
 
 require('./db');
@@ -14,7 +15,8 @@ const PORT = process.env.PORT || 3050;
 app.use(express.json());
 app.use(cors());
 app.use(authRouter);
-app.use(studentsRouter);
+app.use(studentRouter);
+app.use(articleRouter);
 
 
 app.get('/', async (req, res) => {
