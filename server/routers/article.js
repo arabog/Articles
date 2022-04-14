@@ -31,9 +31,48 @@ router.get('/api/posts', async (req, res) => {
 
 
 // get a particular post
-// updated posts
-// delete a post by both admin and owner
+router.get('/api/post/:id', async (req, res) => {
+          try {
+                    const article = await Article.findById(req.params.id);
 
+                    res.status(200).json(article);
+          } catch (err) {
+                    res.status(500).json(err);
+          }
+});
+
+
+// updated posts
+router.put('/api/post/:id', async (req, res) => {
+          if(req.body.userId === req.params.id) {
+                    try {
+                              const selectedArticle = await Article.findByIdAndUpdate(
+                                        req.params.id,
+
+                                        {
+                                                  $set: req.body
+                                        },
+
+                                        {
+                                                  new: true
+                                        }
+                              );
+          
+                              res.status(200).json(selectedArticle);
+                    } catch (err) {
+                              res.status(500).json(err);
+                    }
+          }else {
+                    res.status(401).json('This post can only be updated by the author!');
+          }
+});
+
+
+
+// delete a post by both admin and owner
+// a post likes
+
+// post duration before it's deleted
 
 
 module.exports = router;
